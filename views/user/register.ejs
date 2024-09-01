@@ -1,0 +1,45 @@
+<div class="main-container">
+    <div class="container-xxl">
+        <div class="holder row justify-content-center align-items-center">
+            <!-- Left image -->
+            <div class="part-container row justify-content-between">
+                
+                <div class="left-wing d-flex justify-content-center align-items-center col-6">
+                    <img class="left-img" src="/images/lush-green-mountain.png" height="590px" width="800px" alt="">
+                    <div class="sign-prompt text-center d-flex flex-column justify-content-center align-items-center">
+                        <h1 class="text-style mb-5">Already a member?</h1>
+                        <a href="/"><div class="btn btn-primary">Take me to log in</div></a>
+                    </div>
+                </div>
+                <div class="right-wing col-6 d-flex flex-column ">
+                    <h1 class="text-center mt-4 page-text head-title">Register</h1>
+            
+                    <form action="/register" method="post" class="sign-body pb-5 d-flex flex-column gap-2">
+                        <div class="mb-3 form-group">
+                            <label for="name" class="form-label fs-5 fw-medium page-text">Username</label>
+                            <input type="text" class="form-box rounded-2" name="username"
+                                placeholder="Enter a new username" required>
+                        </div>
+                        <div class="mb-3 form-group">
+                            <label for="name" class="form-label fs-5 fw-medium page-text">email</label>
+                            <input type="text" class="form-box rounded-2" name="email"
+                                placeholder="example@email.com" required>
+                        </div>
+                        <div class="mb-3 form-group">
+                            <label for="password" class="form-label fs-5 fw-medium page-text">Password</label>
+                            <input type="password" name="password" class="form-box rounded-2"
+                                placeholder="Enter your password..." required>
+                        </div>
+                        <div class="mb-3 form-group">
+                            <label for="password" class="form-label fs-5 fw-medium page-text">Confirm Password</label>
+                            <input type="password" name="confirmPassword" class="form-box rounded-2 mb-3"
+                                placeholder="Enter your password again..." required>
+                        </div>
+                        <p class="text-danger"><%= registerError %></p>
+                        <button id="sign-button" class="btn mb-2" type="submit">sign up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

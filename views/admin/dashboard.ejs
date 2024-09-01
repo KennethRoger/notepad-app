@@ -1,0 +1,166 @@
+<div class="admin-section">
+    <header class="">
+        <nav class="admin-navbar bg-dark p-3 text-light">
+            <div class="container-fluid d-flex justify-content-between align-items-center p-3">
+              <span class="navbar-brand mb-0 h1 fs-3">Dashboard</span>
+              <!-- Logout from dashboard -->
+              <form action="/admin/logout" class="" method="post">
+                  <button class="btn btn-light" type="submit">logout</button>
+              </form>
+            </div>
+        </nav>
+    </header>
+    <main class="admin-body">
+        <div class="admin-access-body container-xxl d-flex justify-content-between align-items-center rounded-3 mt-3 p-3 ps-5 pe-5">
+            <h2 class="">Admin: <%= adminName %></h2>
+            <!-- search bar -->
+            <form action="/admin/dashboard/search-user" method="get" class="d-flex" role="search">
+                <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-dark" type="submit">Search</button>
+            </form>
+
+            <div class="admin-operation d-flex gap-3">
+                <button class="btn border border-3 btn-light text-muted" data-bs-toggle="modal" data-bs-target="#add-modal">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+                <form action="/admin/dashboard" method="get">
+                    <button class="btn btn-secondary text-light" >view all</button>
+                </form>
+            </div>
+        </div>
+        <div class="admin-access-body container-xxl d-flex justify-content-between align-items-center rounded-3 mt-3 pt-3 g-0">
+            <table class="table table table-striped">
+                <!-- table with users -->
+                 <thead>
+                     <tr>
+                         <th>User Id</td>
+                         <th>Name</td>
+                         <th>email</td>
+                         <th></td>
+                     </tr>
+                 </thead>
+                <!-- user details populate here -->
+                <tbody>
+                    <% if (users && users.length > 0) { %>
+                        <% users.forEach((user) => { %>
+                            <tr>
+                                <td><%= user.userId %></td>
+                                <td><%= user.username %></td>
+                                <td><%= user.email %></td>
+                                <td>
+                                    <div class="configure">
+                                        <!-- Get the user for edit prompt -->
+                                        <button class="change-data-button" data-bs-toggle="modal" data-bs-target="#edit-modal">
+                                            <i class="fa-solid fa-pencil"></i>
+                                        </button>
+                                        <!-- Get the user for delete prompt -->
+                                        <button class="change-data-button" data-bs-toggle="modal" data-bs-target="#delete-modal-<%= user.userId %>">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </button>
+                                        <!-- delete modal -->
+                                        <div class="modal fade" id="delete-modal-<%= user.userId %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Delete prompt</h1>
+                                                </div>
+                                                    <div class="sign-body d-flex flex-column gap-3">
+                                                        <p class="fs-5 mt-3">Are you sure you want to delete the user ?</p>
+                                                        <!-- delete modal form -->
+                                                            <form action="/admin/dashboard/delete-user" method="post">
+                                                                <input type="hidden" name="userId" value="<%= user.userId %>">
+                                                                <button type="submit" class="btn btn-danger sign-button w-100">Delete</button>
+                                                            </form>
+                                                        <button type="button" class="btn btn-secondary mb-3" data-bs-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4">No users found</td>
+                        </tr>
+                    <% }; %>
+                </tbody>
+              </table>
+        </div>
+
+        <!-- add modal -->
+        <div class="modal fade" id="add-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Add user</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <!-- add modal form -->
+                    <form action="/admin/dashboard/add-user", method="post">
+                        <div class="modal-body">
+                            <div class="mb-3 form-group">
+                                <label for="name" class="form-label fs-5 fw-medium page-text">Username</label>
+                                <input type="text" class="form-box rounded-2" name="username"
+                                    placeholder="username" required>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="name" class="form-label fs-5 fw-medium page-text">Email</label>
+                                <input type="text" class="form-box rounded-2" name="email"
+                                    placeholder="example@email.com" required>
+                            </div>
+                            <div class="mb-3 form-group">
+                                <label for="password" class="form-label fs-5 fw-medium page-text">Password</label>
+                                <input type="password" name="password" class="form-box rounded-2"
+                                    placeholder="password" required>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">add</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- edit modal -->
+        <div class="modal fade" id="edit-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editing user, username:id</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <!-- edit modal form -->
+                <form action="/admin/dashboard/edit-user" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3 form-group">
+                            <label for="name" class="form-label fs-5 fw-medium page-text">New Username</label>
+                            <input type="text" class="form-box rounded-2" name="username"
+                                placeholder="username" required>
+                        </div>
+                        <div class="mb-3 form-group">
+                            <label for="name" class="form-label fs-5 fw-medium page-text">New Email</label>
+                            <input type="text" class="form-box rounded-2" name="email"
+                                placeholder="example@email.com" required>
+                        </div>
+                        <div class="mb-3 form-group">
+                            <label for="password" class="form-label fs-5 fw-medium page-text">New Password</label>
+                            <input type="password" name="password" class="form-box rounded-2"
+                                placeholder="password" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">submit</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+</div>

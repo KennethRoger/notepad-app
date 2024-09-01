@@ -1,0 +1,184 @@
+body {
+    font-family: "Archivo Black", system-ui;
+    font-weight: 400;
+    font-style: normal;  
+}
+
+a {
+    text-decoration: none !important;
+    color: white !important;
+}
+/* Page styling */
+.main-container {
+    background:rgb(158, 238, 203);
+    background: linear-gradient(90deg, rgb(158, 238, 203) 21%, rgb(58, 142, 145) 100%);
+    height: 100vh;
+}
+
+.holder {
+    height: 100vh;
+    margin: 0 !important;
+}
+
+.main {
+    background-color: white;
+}
+/* Main image styling for login and register */
+
+.part-container {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Left image part */
+
+.left-wing {
+    width: 100%;
+    max-height: 600px;
+    overflow: hidden;
+    position: relative;
+}
+
+.left-img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.sign-prompt {
+    z-index: 1;
+}
+
+.text-style {
+    color: rgb(255, 255, 255);
+}
+
+.right-wing {
+    background-color: white;
+    height: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column ;
+}
+
+.form-box {
+    border: 1px solid rgb(129, 129, 129);
+    padding: 6px 15px;
+}
+
+.page-text {
+    color: #000000;
+}
+
+.sign-body {
+    padding: 0 10%;
+}
+
+#sign-button {
+    background-color: #266C6A;
+    color: white;
+}
+
+#sign-button:hover {
+    background-color: #078f52;
+    color: white;
+}
+/* Home page styling */
+
+.home-section {
+    background-color: rgb(235, 234, 234);
+    height: 100vh;
+}
+
+.card {
+    background-color: #fdff97 !important;
+}
+
+.navbar {
+    background-color: #242525;
+}
+
+/* styling notes add button  */
+
+.add-pad {
+    width: 60px;
+    height: 60px;
+}
+
+/* Admin login page styling */
+
+.admin-page {
+    background-color: rgb(231, 231, 228);
+}
+
+.admin-login-box {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    backdrop-filter: blur(10px);    
+    -webkit-backdrop-filter: blur(5px);
+}
+
+.admin-form {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.admin-form label {
+    font-size: 1.3rem;
+}
+
+.admin-form input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid black;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+.admin-form input::placeholder {
+    font-size: 1.2rem;
+    color: rgb(105, 105, 105);
+}
+
+/* Admin dashboard */
+
+/* .admin-navbar {
+    
+} */
+
+.admin-section {
+    background-color: rgb(231, 228, 228);
+}
+
+.admin-body {
+    /* background-color: rgb(231, 228, 228); */
+    height: 100vh
+}
+
+.admin-access-body {
+    background-color: white;
+}
+
+.configure {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.change-data-button {
+    background-color: transparent;
+    border: none;
+}
+
+.change-data-button:hover {
+    background-color: rgb(223, 221, 221);
+}
+
+
+.configure .fa-trash-can {
+    color: red;
+}

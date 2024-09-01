@@ -1,0 +1,21 @@
+<div class="d-flex flex-column justify-content-center align-items-center holder admin-page p-5">
+    <div class="admin-login-box bg-light rounded-4 gap-4 p-5">
+        <h2 class="mb-5 text-center">Welcome To Admin Login</h2>
+        <form action="/admin" method="post" class="d-flex flex-column gap-4">
+            <div class="admin-form form-group">
+                <label for="name">Name</label>
+                <input type="text" name="name" class="pt-2 pb-2" required>
+            </div>
+            <div class="admin-form form-group">
+                <label for="id">Admin ID</label>
+                <input type="text" name="adminId" class="pt-2 pb-2" required>
+            </div>
+            <div class="admin-form form-group mb-5">
+                <label for="password">Password</label>
+                <input name="password" type="password" class="pt-2 pb-2"  required>
+            </div>
+            <p class="text-danger"><%= error %></p>
+            <button class="btn btn-primary" type="submit">Verify</button>
+        </form>
+    </div>
+</div>
