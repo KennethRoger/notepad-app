@@ -15,7 +15,7 @@
             <h2 class="">Admin: <%= adminName %></h2>
             <!-- search bar -->
             <form action="/admin/dashboard/search-user" method="get" class="d-flex" role="search">
-                <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                <input class="form-control me-2" name="data" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-dark" type="submit">Search</button>
             </form>
 
@@ -50,9 +50,46 @@
                                 <td>
                                     <div class="configure">
                                         <!-- Get the user for edit prompt -->
-                                        <button class="change-data-button" data-bs-toggle="modal" data-bs-target="#edit-modal">
+                                        <button class="change-data-button" data-bs-toggle="modal" data-bs-target="#edit-modal-<%= user.userId %>">
                                             <i class="fa-solid fa-pencil"></i>
                                         </button>
+                                        <!-- edit modal -->
+                                        <div class="modal fade" id="edit-modal-<%= user.userId %>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editing user, username:id</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <!-- edit modal form -->
+                                                <form action="/admin/dashboard/edit-user" method="post" onsubmit="return validateForm()">
+                                                    <div class="modal-body">
+                                                        <div class="mb-3 form-group">
+                                                            <label for="name" class="form-label fs-5 fw-medium page-text">New Username</label>
+                                                            <input type="text" class="form-box rounded-2" name="username" id="username"
+                                                                placeholder="username">
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label for="name" class="form-label fs-5 fw-medium page-text">New Email</label>
+                                                            <input type="text" class="form-box rounded-2" name="email" id="email"
+                                                                placeholder="example@email.com">
+                                                        </div>
+                                                        <div class="mb-3 form-group">
+                                                            <label for="text" class="form-label fs-5 fw-medium page-text">New Password</label>
+                                                            <input type="text" name="password" class="form-box rounded-2" id="password"
+                                                                placeholder="password">
+                                                        </div>
+                                                    </div>
+                                                    <p class="register-error-msg text-danger" id="error-message"></p>
+                                                    <div class="modal-footer">
+                                                        <input type="hidden" name="userId" value="<%= user.userId %>">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>                                                        
+                                                        <button type="submit" class="btn btn-primary">submit</button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- Get the user for delete prompt -->
                                         <button class="change-data-button" data-bs-toggle="modal" data-bs-target="#delete-modal-<%= user.userId %>">
                                             <i class="fa-regular fa-trash-can"></i>
@@ -88,6 +125,7 @@
                 </tbody>
               </table>
         </div>
+        <div class="p-5"></div>
 
         <!-- add modal -->
         <div class="modal fade" id="add-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -125,41 +163,7 @@
             </div>
         </div>
 
-        <!-- edit modal -->
-        <div class="modal fade" id="edit-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Editing user, username:id</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <!-- edit modal form -->
-                <form action="/admin/dashboard/edit-user" method="post">
-                    <div class="modal-body">
-                        <div class="mb-3 form-group">
-                            <label for="name" class="form-label fs-5 fw-medium page-text">New Username</label>
-                            <input type="text" class="form-box rounded-2" name="username"
-                                placeholder="username" required>
-                        </div>
-                        <div class="mb-3 form-group">
-                            <label for="name" class="form-label fs-5 fw-medium page-text">New Email</label>
-                            <input type="text" class="form-box rounded-2" name="email"
-                                placeholder="example@email.com" required>
-                        </div>
-                        <div class="mb-3 form-group">
-                            <label for="password" class="form-label fs-5 fw-medium page-text">New Password</label>
-                            <input type="password" name="password" class="form-box rounded-2"
-                                placeholder="password" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">submit</button>
-                    </div>
-                </form>
-                </div>
-            </div>
-        </div>
+        
 
     </main>
 

@@ -14,7 +14,9 @@
                 <label for="password">Password</label>
                 <input name="password" type="password" class="pt-2 pb-2"  required>
             </div>
-            <p class="text-danger"><%= error %></p>
+            <% if (error) { %>
+                <p class="text-danger"><%= error %></p>
+            <% } %>
             <button class="btn btn-primary" type="submit">Verify</button>
         </form>
     </div>

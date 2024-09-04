@@ -5,7 +5,7 @@
             <div class="part-container row justify-content-between">
                 
                 <div class="left-wing d-flex justify-content-center align-items-center col-12 col-md-6">
-                    <img class="left-img" src="/images/lush-green-mountain.png" height="590px" width="750px" alt="">
+                    <img class="left-img" src="/images/lush-green-mountain.png" height="100%" width="100%" alt="">
                     <div class="sign-prompt d-flex flex-column justify-content-center align-items-center">
                         <h1 class="text-style mb-2">New Here?</h1>
                         <h5 class="text-style mb-5">Sign up now</h5>
@@ -25,7 +25,9 @@
                             <input type="password" name="password" class="form-box rounded-2"
                                 placeholder="Enter your password" required>
                         </div>
-                        <p class="text-danger"><%= loginError %></p>
+                        <% if (error) { %>
+                            <p class="text-danger"><%= error %></p>    
+                        <% } %>
                         <button type="submit" id="sign-button" class="btn mb-5">Sign in</button>
                     </form>
                 </div>

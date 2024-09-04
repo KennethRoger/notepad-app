@@ -110,9 +110,10 @@ function wasAuthenticated(req, res, next) {
 
 // get request for login page
 app.get('/', wasAuthenticated, (req, res) => {
+    const error = req.query.error ? decodeURIComponent(req.query.error) : null;
     res.render('user/login', {
         title: 'Login',
-        loginError: '',
+        error,
     });
 });
 
@@ -129,17 +130,11 @@ app.post('/', async (req, res) => {
                 res.status(200).redirect('/home');
             }
             else {
-                res.render('user/login', {
-                    title: 'Login',
-                    loginError: 'Invalid username or password',
-                });
+                res.redirect('/?error=Invalid+username+or+password');
             }
         }
         else {
-            res.render('user/login', {
-                title: 'Login',
-                loginError: 'Invalid username or password',
-            });
+            res.redirect('/?error=Invalid+username+or+password');
         }
     }
     catch (err) {
@@ -158,24 +153,18 @@ function isAuthenticated(req, res, next) {
 
 // REGISTER PAGE
 // get request for register page
-app.get('/register', (req, res) => {
+app.get('/register', wasAuthenticated, (req, res) => {
+    const error = req.query.error ? decodeURIComponent(req.query.error) : null;
     res.render('user/register', {
         title: 'Register',
-        registerError: '',
+        error,
     });
 });
 
 // post request on the register page
 app.post('/register', async (req, res) => {
-    const { username, email, password, confirmPassword} = req.body;
+    const { username, email, password } = req.body;
 
-    // checking if password match
-    if (password !== confirmPassword) {
-        return res.render('user/register', {
-            title: 'Register',
-            registerError: "* Passwords isn't matching *",
-        });
-    }
     // creating new user
     try {
         const hashedPass = await bcryptjs.hash(password, 10);
@@ -190,15 +179,13 @@ app.post('/register', async (req, res) => {
             email: email,
             password: hashedPass, 
         });
+        console.log(newUser);
         
-        console.log(`New user ${newUser}`);
+        
         res.redirect('/home');
     }
     catch (err) {
-        res.status(500).render('user/register', {
-            title: 'Register',
-            registerError: "Something went wrong. User creation failed",
-        });
+        return res.redirect("/register?error=The+username+is+already+taken");
     }
 });
 
@@ -242,9 +229,10 @@ function wasAdminAuth(req, res, next) {
 
 // admin login
 app.get('/admin', wasAdminAuth, (req, res) => {
+    const error = req.query.error ? decodeURIComponent(req.query.error) : null;
     res.render('admin/login', {
         title: 'Admin login',
-        error: '',
+        error,
     })
 });
 
@@ -255,14 +243,11 @@ app.post('/admin', async (req, res) => {
         const admin =  await Admin.findOne({name, adminId, password});
     
         if (admin) {
-            req.session.admin = { name: admin.name, aid: admin.password};
+            req.session.admin = { name: admin.name, aid: admin.adminId};
             res.redirect('/admin/dashboard');
         }
         else {
-            res.render('admin/login', {
-                title: 'Admin Login',
-                error: 'Invalid login credentials',
-            });
+            res.redirect('/admin?error=Invalid+login+credentials');
         }
     }
     catch (err) {
@@ -289,23 +274,19 @@ app.get('/admin/dashboard', isAdminAuth, async (req, res) => {
         });
     }
     catch (err){
-        res.status(500).redirect('/admin/dashboard', {
-
-        });
+        res.status(500).redirect('/admin/dashboard');
     }
 });
 
 // Admin search user
 
 app.get('/admin/dashboard/search-user', isAdminAuth, async (req, res) => {
-    const searchQuery = req.query.search;
+    const searchQuery = req.query.data;
 
     try {
         let users;
         const userIdQuery = isNaN(searchQuery)? null: Number(searchQuery);
-        console.log(userIdQuery);
         
-
         users = await User.find({
             $or: [
                 { username: { $regex: searchQuery, $options: 'i' } },
@@ -357,13 +338,39 @@ app.post('/admin/dashboard/add-user', isAdminAuth, async (req, res) => {
 
 // Admin edit user
 
+app.post('/admin/dashboard/edit-user', isAdminAuth, async (req, res) => {
+    const { userId, username, email, password } = req.body;
+
+    try {
+        const validUser = await User.findOne({ userId });
+
+        if (!validUser) {
+            console.log('User not found');
+            return res.status(404).send('User not found');
+        }
+
+        const updateFields = {};
+        if (username) updateFields.username = username;
+        if (email) updateFields.email = email;
+        if (password) updateFields.password = await bcryptjs.hash(password, 10);
+
+        await User.updateOne({ userId }, { $set: updateFields });
+
+        res.redirect('/admin/dashboard');
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).send('An error occurred while updating the user');
+    }
+});
+
+// Admin delete user
+
 app.post('/admin/dashboard/delete-user', isAdminAuth, async (req, res) => {
     const userId = req.body.userId;
-    console.log(userId)
 
     if (userId) {
         try {
-            // const userToDelete = await User.findOneAndDelete({userId: Number(userId)});
+            const userToDelete = await User.findOneAndDelete({userId: Number(userId)});
             console.log(userToDelete);
             
             res.status(200).redirect('/admin/dashboard')
@@ -381,16 +388,14 @@ app.post('/admin/dashboard/delete-user', isAdminAuth, async (req, res) => {
 
 app.post('/admin/logout', (req, res) => {
     if (req.session.admin) {
-        try {
-            delete req.session.admin;
-            res.clearCookie('connect.sid');
-            res.redirect('/admin');
+        delete req.session.admin;
+        res.clearCookie('connect.sid');
+        res.redirect('/admin');
 
-        }
-        catch (err) {
-            return res.status(500).redirect('/admin/dashboard');
-        }
     }
+    else {
+        return res.status(500).redirect('/admin/dashboard');
+        }
 });
 
 app.listen(port, (err) => {

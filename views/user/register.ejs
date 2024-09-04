@@ -2,10 +2,10 @@
     <div class="container-xxl">
         <div class="holder row justify-content-center align-items-center">
             <!-- Left image -->
-            <div class="part-container row justify-content-between">
+            <div class="part-container row justify-content-center">
                 
                 <div class="left-wing d-flex justify-content-center align-items-center col-6">
-                    <img class="left-img" src="/images/lush-green-mountain.png" height="590px" width="800px" alt="">
+                    <img class="left-img" src="/images/lush-green-mountain.png" height="100%" width="100%" alt="">
                     <div class="sign-prompt text-center d-flex flex-column justify-content-center align-items-center">
                         <h1 class="text-style mb-5">Already a member?</h1>
                         <a href="/"><div class="btn btn-primary">Take me to log in</div></a>
@@ -14,28 +14,30 @@
                 <div class="right-wing col-6 d-flex flex-column ">
                     <h1 class="text-center mt-4 page-text head-title">Register</h1>
             
-                    <form action="/register" method="post" class="sign-body pb-5 d-flex flex-column gap-2">
+                    <form action="/register" method="post" onsubmit="return validateForm()" class="sign-body pb-5 d-flex flex-column gap-2">
                         <div class="mb-3 form-group">
                             <label for="name" class="form-label fs-5 fw-medium page-text">Username</label>
-                            <input type="text" class="form-box rounded-2" name="username"
+                            <input type="text" class="form-box rounded-2" name="username" id="username"
                                 placeholder="Enter a new username" required>
                         </div>
                         <div class="mb-3 form-group">
                             <label for="name" class="form-label fs-5 fw-medium page-text">email</label>
-                            <input type="text" class="form-box rounded-2" name="email"
+                            <input type="text" class="form-box rounded-2" name="email" id="email"
                                 placeholder="example@email.com" required>
                         </div>
                         <div class="mb-3 form-group">
                             <label for="password" class="form-label fs-5 fw-medium page-text">Password</label>
-                            <input type="password" name="password" class="form-box rounded-2"
+                            <input type="password" name="password" class="form-box rounded-2" id="password"
                                 placeholder="Enter your password..." required>
                         </div>
                         <div class="mb-3 form-group">
                             <label for="password" class="form-label fs-5 fw-medium page-text">Confirm Password</label>
-                            <input type="password" name="confirmPassword" class="form-box rounded-2 mb-3"
-                                placeholder="Enter your password again..." required>
+                            <input type="password" name="confirmPassword" class="form-box rounded-2 mb-3" id="confirmPassword" placeholder="Enter your password again..." required>
                         </div>
-                        <p class="text-danger"><%= registerError %></p>
+                        <p class="register-error-msg text-danger" id="error-message"></p>
+                        <% if (error) { %>
+                            <p class="text-danger"><%= error %></p>
+                        <% } %>
                         <button id="sign-button" class="btn mb-2" type="submit">sign up</button>
                     </form>
                 </div>
