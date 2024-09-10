@@ -18,23 +18,26 @@
                         <div class="mb-3 form-group">
                             <label for="name" class="form-label fs-5 fw-medium page-text">Username</label>
                             <input type="text" class="form-box rounded-2" name="username" id="username"
-                                placeholder="Enter a new username" required>
+                                placeholder="Enter a new username" >
                         </div>
+                        <p class="register-error-msg text-danger" id="user-error"></p>
                         <div class="mb-3 form-group">
                             <label for="name" class="form-label fs-5 fw-medium page-text">email</label>
                             <input type="text" class="form-box rounded-2" name="email" id="email"
-                                placeholder="example@email.com" required>
+                                placeholder="example@email.com" >
                         </div>
+                        <p class="register-error-msg text-danger" id="email-error"></p>
                         <div class="mb-3 form-group">
                             <label for="password" class="form-label fs-5 fw-medium page-text">Password</label>
                             <input type="password" name="password" class="form-box rounded-2" id="password"
-                                placeholder="Enter your password..." required>
+                                placeholder="Enter your password..." >
                         </div>
+                        <p class="register-error-msg text-danger" id="pass-error"></p>
                         <div class="mb-3 form-group">
                             <label for="password" class="form-label fs-5 fw-medium page-text">Confirm Password</label>
-                            <input type="password" name="confirmPassword" class="form-box rounded-2 mb-3" id="confirmPassword" placeholder="Enter your password again..." required>
+                            <input type="password" name="confirmPassword" class="form-box rounded-2 mb-3" id="confirmPassword" placeholder="Enter your password again..." >
                         </div>
-                        <p class="register-error-msg text-danger" id="error-message"></p>
+                        <p class="register-error-msg text-danger" id="con-pass-error"></p>
                         <% if (error) { %>
                             <p class="text-danger"><%= error %></p>
                         <% } %>

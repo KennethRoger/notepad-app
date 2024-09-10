@@ -177,7 +177,7 @@ app.post('/register', async (req, res) => {
             userId: nextUserId,
             username: username,
             email: email,
-            password: hashedPass, 
+            password: hashedPass,
         });
         console.log(newUser);
         
@@ -401,3 +401,4 @@ app.post('/admin/logout', (req, res) => {
 app.listen(port, (err) => {
     console.log(`Listening to port ${port}`);
 })
+

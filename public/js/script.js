@@ -13,37 +13,46 @@ function validateForm() {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value.trim();
     const confirmPassword = document.getElementById('confirmPassword').value.trim();
-    const errorMessage = document.getElementById('error-message');
+
+    const userError = document.getElementById('user-error');
+    const emailError = document.getElementById('email-error');
+    const passError = document.getElementById('pass-error');
+    const conPassError = document.getElementById('con-pass-error');
 
     // Clear previous error messages
-    errorMessage.textContent = '';
+    userError.textContent = '';
+    emailError.textContent = '';
+    passError.textContent = '';
+    conPassError.textContent = '';
 
-    // Check if username is empty
-    if (username === '' || username.length < 3) {
-        errorMessage.textContent = 'Username should contain characters';
-        return false;
+    let isValid = true;
+
+    // Validate username
+    if (username === '' || username.length < 3 || !isNaN(username)) {
+        userError.textContent = 'Username should contain more than 3 characters and cannot be a number.';
+        isValid = false;
     }
 
-    // Check if email is valid
+    // Validate email
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailPattern.test(email)) {
-        errorMessage.textContent = 'Please enter a valid email address.';
-        return false;
+        emailError.textContent = 'Please enter a valid email address.';
+        isValid = false;
     }
 
-    // Check if password and confirm password match
-    if (password !== confirmPassword) {
-        errorMessage.textContent = 'Passwords do not match.';
-        return false;
-    }
-
-    // Check if password is strong (minimum 8 characters, at least one letter and one number)
+    // Validate password
     const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*()_+={}\[\]:;"'<>,.?\/\\~-]{8,}$/;
     if (!passwordPattern.test(password)) {
-        errorMessage.textContent = 'Password must be at least 8 characters long and include at least one letter and one number.';
-        return false;
+        passError.textContent = 'Password must be at least 8 characters long and include at least one letter and one number.';
+        isValid = false;
     }
 
-    // If all validations pass
-    return true;
+    // Validate confirm password
+    if (password !== confirmPassword) {
+        conPassError.textContent = 'Passwords do not match.';
+        isValid = false;
+    }
+
+    return isValid;
 }
+
